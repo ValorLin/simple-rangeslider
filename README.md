@@ -1,6 +1,5 @@
- Simple Rangeslider
+# Simple Rangeslider
 
-Simple range slider
 
 ## Getting Started
 Download the [production version][min] or the [development version][max].
