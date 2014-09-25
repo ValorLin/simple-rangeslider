@@ -4,6 +4,9 @@
 /*! Simple Rangeslider - v0.1.0 - 2014-09-25
  * https://github.com/weilao/simple-rangeslider
  * Copyright (c) 2014 Weilao; Licensed MIT */
+/*! Simple Rangeslider - v0.1.0 - 2014-09-25
+ * https://github.com/weilao/simple-rangeslider
+ * Copyright (c) 2014 Weilao; Licensed MIT */
 (function ($) {
     var namespace = 'rangeslider';
 
@@ -40,10 +43,7 @@
 
         // Create handler
         $sliderHandler = $('<div class="' + namespace + '-handler"></div>');
-        $sliderHandler.appendTo($slider).css({
-            position: 'absolute',
-            top: -$slider.height() / 2
-        });
+        $sliderHandler.appendTo($slider);
 
         this.$slider = $slider;
         this.$sliderHandler = $sliderHandler;
@@ -52,6 +52,17 @@
         this._handlerWidth = handlerWidth = $sliderHandler.width();
         this._maxLeft = sliderWidth - handlerWidth / 2;
         this._minLeft = -handlerWidth / 2;
+
+        $sliderHandler
+            .css({
+                position: 'absolute',
+                fontSize: '0' // IE6: Height never smaller fontSize
+            })
+            // IE6: $slider.height() is wrong if $sliderHandler's position wasn't absolute
+            .css({
+                left: -this._handlerWidth / 2,
+                top: -$slider.height() / 2
+            });
 
         $slider.on('mousedown.' + namespace, function (e) {
             e.preventDefault();
