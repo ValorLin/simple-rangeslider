@@ -112,7 +112,7 @@
                 // Update value
                 var value = this.getPercent() * this.options.max;
                 this.$slider.val(value);
-                this.$slider.trigger('change.' + namespace, value, this.getPercent());
+                this.$slider.trigger('change.' + namespace, [value, this.getPercent()]);
             }
         }
     });
