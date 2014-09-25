@@ -1,76 +1,94 @@
 (function () {
-    var namespace = 'rangeslider';
-    var plugin = function (el, options) {
-        var self = this;
-        var $slider, $sliderHandler, sliderWidth, handlerWidth,
-            max, min, id, value;
+    var namespace = 'rangeslider',
+        plugin = function (el, options) {
+            var self = this;
+            var $slider, $sliderHandler, sliderWidth, handlerWidth, id, initialValue;
 
-        $slider = $(el);
+            $slider = $(el);
 
-        value = $slider.attr('value');
-        id = $slider.attr('id');
+            initialValue = $slider.attr('value');
+            id = $slider.attr('id');
 
-        this.options = $.extend(true, {
-            min: 0,
-            max: 100
-        }, {
-            min: $slider.attr('min'),
-            max: $slider.attr('max')
-        }, options);
+            this.options = $.extend(true, {
+                min: $slider.attr('min') || 0,
+                max: $slider.attr('max') || 100
+            }, options);
 
-        $slider
-            .attr({
-                id: id,
-                "class": namespace,
-                min: this.options.min,
-                max: this.options.max
-            })
-            .css('position', 'relative');
-
-        $slider.replaceWith($slider);
-
-        $slider.val(value);
-
-        $sliderHandler = $('<div class="' + namespace + '-handler"></div>');
-        $sliderHandler.appendTo($slider).css({
-            position: 'absolute',
-            top: -$slider.height() / 2
-        });
-
-        this.$slider = $slider;
-        this.$sliderHandler = $sliderHandler;
-        this.sliderWidth = sliderWidth = $slider.width();
-        this.sliderOffsetLeft = $slider.offset().left;
-        this.handlerWidth = handlerWidth = $sliderHandler.width();
-        this.maxLeft = sliderWidth - handlerWidth / 2;
-        this.minLeft = -handlerWidth / 2;
-
-        $sliderHandler.on('mousedown.' + namespace, function (e) {
-            e.preventDefault();
-            $(document)
-                .on('mousemove.' + namespace, self.update)
-                .on('mouseup.' + namespace, function () {
-                    $(document).off('.' + namespace);
+            $slider
+                .attr({
+                    id: id,
+                    "class": namespace,
+                    min: this.options.min,
+                    max: this.options.max
                 })
-        });
-    };
+                .css('position', 'relative')
+                .val(initialValue);
+
+            // Create handler
+            $sliderHandler = $('<div class="' + namespace + '-handler"></div>');
+            $sliderHandler.appendTo($slider).css({
+                position: 'absolute',
+                top: -$slider.height() / 2
+            });
+
+            this.$slider = $slider;
+            this.$sliderHandler = $sliderHandler;
+            this.sliderWidth = sliderWidth = $slider.width();
+            this._sliderOffsetLeft = $slider.offset().left;
+            this._handlerWidth = handlerWidth = $sliderHandler.width();
+            this._maxLeft = sliderWidth - handlerWidth / 2;
+            this._minLeft = -handlerWidth / 2;
+
+            $slider.on('mousedown.' + namespace, function (e) {
+                e.preventDefault();
+                self.update(e);
+                $(document)
+                    .on('mousemove.' + namespace, $.proxy(self.update, self))
+                    .on('mouseup.' + namespace, function () {
+                        $(document).off('.' + namespace);
+                    });
+            });
+
+            $sliderHandler.on('mousedown.' + namespace, function (e) {
+                e.preventDefault();
+                $(document)
+                    .on('mousemove.' + namespace, $.proxy(self.update, self))
+                    .on('mouseup.' + namespace, function () {
+                        $(document).off('.' + namespace);
+                    });
+            });
+
+            $slider.data('slider', this);
+        };
 
     $[namespace] = $.extend(plugin, {
         prototype: {
-            percent: null,
+            _percent: null,
+            getValue: function () {
+                return this.getPercent() * this.options.max;
+            },
+            setValue: function (value) {
+                this.setHandlerLeft(value / this.options.max * this._maxLeft - this._handlerWidth / 2);
+            },
+            getPercent: function () {
+                return this._percent;
+            },
+            getHandlerLeft: function () {
+                return this._handlerLeft;
+            },
+            setHandlerLeft: function (left) {
+                left = Math.max(left, this._minLeft);
+                left = Math.min(left, this._maxLeft);
+                this.$sliderHandler.css('left', left);
+                this._handlerLeft = left;
+                this._percent = (this._handlerLeft + this._handlerWidth / 2 ) /
+                    (this._maxLeft - this._minLeft);
+            },
             update: function (e) {
                 e.preventDefault();
-                var left, value, percent;
-
-                // Update handler position
-                left = e.pageX - this.sliderOffsetLeft - this.handlerWidth / 2;
-                left = Math.max(left, this.minLeft);
-                left = Math.min(left, this.maxLeft);
-                this.$sliderHandler.css('left', left);
-
+                this.setHandlerLeft(e.pageX - this._sliderOffsetLeft - this._handlerWidth / 2);
                 // Update value
-                percent = (e.pageX - this.sliderOffsetLeft ) / (this.maxLeft - this.minLeft);
-                value = percent * self.options.max;
+                var value = this.getPercent() * this.options.max;
                 this.$slider.val(value);
                 this.$slider.trigger('change.' + namespace, value);
             }
