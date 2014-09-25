@@ -5,7 +5,7 @@ Simple range slider
 ## Getting Started
 Download the [production version][min] or the [development version][max].
 
-[min]: https://raw.githubusercontent.com/weilao/simple-rangeslider/master/dist/simple-rangeslider.min.js
+[min]: https://raw.githubusercontent.com/weilao/simple-rangeslider/master/dist/jquery.simple-rangeslider.min.js
 [max]: https://raw.githubusercontent.com/weilao/simple-rangeslider/master/dist/jquery.simple-rangeslider.js
 
 In your web page:
