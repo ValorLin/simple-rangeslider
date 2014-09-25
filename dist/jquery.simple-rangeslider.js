@@ -1,6 +1,9 @@
 /*! Simple Rangeslider - v0.1.0 - 2014-09-25
 * https://github.com/weilao/simple-rangeslider
 * Copyright (c) 2014 Weilao; Licensed MIT */
+/*! Simple Rangeslider - v0.1.0 - 2014-09-25
+ * https://github.com/weilao/simple-rangeslider
+ * Copyright (c) 2014 Weilao; Licensed MIT */
 (function ($) {
     var namespace = 'rangeslider';
 
@@ -85,7 +88,8 @@
                 return this.getPercent() * this.options.max;
             },
             setValue: function (value) {
-                this.setHandlerLeft(value / this.options.max * this._maxLeft - this._handlerWidth / 2);
+                var percent = (value - this.options.min) / (this.options.max - this.options.min);
+                this.setHandlerLeft(percent * this._maxLeft - this._handlerWidth / 2);
             },
             getPercent: function () {
                 return this._percent;
@@ -105,7 +109,7 @@
                 e.preventDefault();
                 this.setHandlerLeft(e.pageX - this._sliderOffsetLeft - this._handlerWidth / 2);
                 // Update value
-                var value = this.getPercent() * this.options.max;
+                var value = this.getPercent() * (this.options.max - this.options.min) + this.options.min;
                 this.$slider.val(value);
                 this.$slider.trigger('change.' + namespace, [value, this.getPercent()]);
             }
