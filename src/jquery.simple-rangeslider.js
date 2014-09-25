@@ -85,11 +85,8 @@
                 return this.getPercent() * this.options.max;
             },
             setValue: function (value) {
-                this.setHandlerLeft(
-                        (value - this.options.min) / (this.options.max - this.options.min)
-                        * this._maxLeft
-                        - this._handlerWidth / 2
-                );
+                var percent = (value - this.options.min) / (this.options.max - this.options.min);
+                this.setHandlerLeft(percent * this._maxLeft - this._handlerWidth / 2);
             },
             getPercent: function () {
                 return this._percent;
