@@ -1,0 +1,27 @@
+{
+  "name": "simple-rangeslider",
+  "title": "Simple Rangeslider",
+  "description": "Simple range slider",
+  "version": "0.1.0",
+  "homepage": "https://github.com/weilao/simple-rangeslider",
+  "author": {
+    "name": "Weilao",
+    "email": "qqq123026689@126.com",
+    "url": "https://github.com/weilao"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://git@github.com:weilao/simple-rangeslider.git"
+  },
+  "bugs": "https://github.com/weilao/simple-rangeslider/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/weilao/simple-rangeslider/blob/master/LICENSE-MIT"
+    }
+  ],
+  "dependencies": {
+    "jquery": "*"
+  },
+  "keywords": []
+}
