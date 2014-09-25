@@ -13,9 +13,10 @@ In your web page:
 ```html
 <script src="jquery.js"></script>
 <script src="dist/simple-rangeslider.min.js"></script>
+<div id="slider"></div>
 <script>
 jQuery(function($) {
-  $.awesome(); // "awesome"
+    $('#slider').rangeslider();
 });
 </script>
 ```
