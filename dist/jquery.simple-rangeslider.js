@@ -1,12 +1,6 @@
-/*! Simple Rangeslider - v0.1.0 - 2014-09-25
+/*! Simple Rangeslider - v0.1.0 - 2014-09-26
 * https://github.com/weilao/simple-rangeslider
 * Copyright (c) 2014 Weilao; Licensed MIT */
-/*! Simple Rangeslider - v0.1.0 - 2014-09-25
- * https://github.com/weilao/simple-rangeslider
- * Copyright (c) 2014 Weilao; Licensed MIT */
-/*! Simple Rangeslider - v0.1.0 - 2014-09-25
- * https://github.com/weilao/simple-rangeslider
- * Copyright (c) 2014 Weilao; Licensed MIT */
 (function ($) {
     var namespace = 'rangeslider';
 
