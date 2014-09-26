@@ -83,25 +83,32 @@
     $[namespace] = $.extend(RangeSlider, {
         prototype: {
             _percent: null,
+
             getMin: function () {
                 return this.options.min;
             },
+
             getMax: function () {
                 return this.options.max;
             },
+
             getValue: function () {
                 return this.getPercent() * this.options.max;
             },
+
             setValue: function (value) {
                 var percent = (value - this.options.min) / (this.options.max - this.options.min);
                 this.setHandlerLeft(percent * this._maxLeft - this._handlerWidth / 2);
             },
+
             getPercent: function () {
                 return this._percent;
             },
+
             getHandlerLeft: function () {
                 return this._handlerLeft;
             },
+
             setHandlerLeft: function (left) {
                 left = Math.max(left, this._minLeft);
                 left = Math.min(left, this._maxLeft);
@@ -110,8 +117,14 @@
                 this._percent = (this._handlerLeft + this._handlerWidth / 2 ) /
                     (this._maxLeft - this._minLeft);
             },
+
             update: function (e) {
                 e.preventDefault();
+
+                // Update slider offset, because I want to ensure the offset
+                // is correct even slider's position was changed.
+                this._sliderOffsetLeft = this.$slider.offset().left;
+
                 this.setHandlerLeft(e.pageX - this._sliderOffsetLeft - this._handlerWidth / 2);
                 // Update value
                 var value = this.getPercent() * (this.options.max - this.options.min) + this.options.min;
